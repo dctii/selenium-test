@@ -23,7 +23,7 @@ jobs:
         run: |
           behave \
             --verbose \
-            --tags=@simple
+            --tags=@simple \
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
             --outfile allure-results \
