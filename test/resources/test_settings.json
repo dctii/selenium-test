@@ -1,0 +1,10 @@
+{
+  "url": "https://smallbra.in/",
+  "browser": "chrome",
+  "driver_timeout": "5",
+  "outlook_password": "",
+  "prod_password":  "",
+  "wait_time": "4",
+  "proxy": "localhost:8080",
+  "use_proxy": true
+}
