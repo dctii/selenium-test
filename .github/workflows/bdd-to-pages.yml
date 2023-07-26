@@ -16,6 +16,8 @@ jobs:
 
       - name: Install dependencies
         run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
           pip3 install --upgrade pip setuptools wheel
           pip3 install -r requirements.txt
 
@@ -31,6 +33,7 @@ jobs:
 
       - name: Generate and server allure report
         run: |
+          echo pwd
           PROJECT_DIR="$(echo pwd)"
           TEST_RESULTS_DIR="./allure-results"
           OUTPUT_REPORT_DIR="./allure-report"
@@ -39,17 +42,19 @@ jobs:
           allure generate $TEST_RESULTS_DIR \
             -o $OUTPUT_REPORT_DIR \
             --clean \
-          && cd $OUTPUT_REPORT_DIR \
           && nohup python3 -m http.server $ALLURE_PORT & \
 
       - name: Unset variables
-        run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR ALLURE_PORT
+        run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR
 
       - name: GET localhost:8080
-        run: curl --location --globoff '[::]:8080'
+        run: curl --location --globoff '[::]:$ALLURE_PORT'
 
       - name: Kill allure server
-        run: kill -9 $(ps aux | grep 'http.server 8080' | awk '{print $2}')
+        run: kill -9 $(ps aux | grep 'http.server $ALLURE_PORT' | awk '{print $2}')
+
+      - name: Deactivate virtual environment
+        run: deactivate
 
         
 
