@@ -152,6 +152,13 @@ cython_debug/
 .idea/
 .idea
 
+# macOS Files
+.DS_STORE
+
+# allure
+allure-results/
+allure-reports/
+
 # Other
 .NOTES
 .NOTES*

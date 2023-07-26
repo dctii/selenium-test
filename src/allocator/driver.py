@@ -1,3 +1,4 @@
+import platform
 import os
 import shutil
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -14,6 +15,8 @@ from selenium.webdriver.edge.service import Service as EdgeService
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.edge.options import Options as EdgeOptions
 
+from utils.dirs import get_root_dir, get_curr_dir
+
 
 class Driver(object):
     def __init__(self, context):
@@ -26,15 +29,39 @@ class Driver(object):
         return web_driver()
 
     def chrome(self):
+        if platform.system() == 'Darwin' and platform.machine() == 'arm64':
+            return self.chrome_mac_arm64()
+        else:
+            return self.chrome_default()
+
+    def chrome_mac_arm64(self):
         desired_capabilities = DesiredCapabilities.CHROME
         options = self.set_chrome_browser_options_arguments(self)
-        browser = webdriver.Chrome(
+        root_dir = get_root_dir(get_curr_dir(__file__))
+        web_drivers_dir = f"{root_dir}/test/resources/browserdrivers"
+        chrome_binary_path = f"{web_drivers_dir}/chromedriver_mac_arm64"
+        chrome_app_path = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+
+        if not os.path.exists(chrome_app_path):
+            print("Google Chrome is not installed. Installing now...")
+            os.system("brew install --cask google-chrome")
+            print("Installation finished. If the script fails, please run it again.")
+
+        options.binary_location = chrome_app_path
+        return webdriver.Chrome(
+            chrome_options=options,
+            desired_capabilities=desired_capabilities,
+            executable_path=chrome_binary_path
+        )
+
+    def chrome_default(self):
+        desired_capabilities = DesiredCapabilities.CHROME
+        options = self.set_chrome_browser_options_arguments(self)
+        return webdriver.Chrome(
             service=ChromeService(ChromeDriverManager().install()),
             chrome_options=options,
             desired_capabilities=desired_capabilities,
         )
-        browser.maximize_window()
-        return browser
 
     def firefox(self):
         profile = webdriver.FirefoxProfile()
@@ -103,7 +130,7 @@ class Driver(object):
             shutil.rmtree(path)
         os.mkdir(path)
         path_to_capture_screenshot = (
-            path + "/" + str(datetime.datetime.now().timestamp()) + ".png"
+                path + "/" + str(datetime.datetime.now().timestamp()) + ".png"
         )
         self.driver.get_screenshot_as_file(
             path_to_capture_screenshot
