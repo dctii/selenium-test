@@ -158,6 +158,7 @@ cython_debug/
 # allure
 allure-results/
 allure-reports/
+allure-report/
 
 # Other
 .NOTES
