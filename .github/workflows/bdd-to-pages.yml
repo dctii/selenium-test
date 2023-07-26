@@ -1,0 +1,37 @@
+name: Allure workflow to GitHub Pages
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v2
+
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip3 install --upgrade pip setuptools wheel
+          pip3 install -r requirements.txt
+
+      - name: Run simple BDD test
+        run: |
+          behave \
+            --verbose \
+            --tags=@simple
+            --format=allure_behave.formatter:AllureFormatter \
+            --summary \
+            --outfile allure-results \
+            --include simple
+
+  finished:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Announce successful completion
+        run: echo "Completed successfully!"
