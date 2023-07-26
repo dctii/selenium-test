@@ -16,7 +16,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip3 install --upgrade pip setuptools wheelcurl --location 'https://www.smallbra.in'
+          pip3 install --upgrade pip setuptools wheel
           pip3 install -r requirements.txt
 
       - name: Run simple BDD test
