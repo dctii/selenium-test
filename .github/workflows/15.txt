@@ -1,0 +1,241 @@
+2023-07-27T03:40:57.8601767Z Requested labels: ubuntu-latest
+2023-07-27T03:40:57.8602019Z Job defined at: dctii/selenium-test/.github/workflows/bdd-to-pages.yml@refs/heads/main
+2023-07-27T03:40:57.8602128Z Waiting for a runner to pick up this job...
+2023-07-27T03:40:58.0853777Z Job is waiting for a hosted runner to come online.
+2023-07-27T03:41:01.6382372Z Job is about to start running on the hosted runner: GitHub Actions 1 (hosted)
+2023-07-27T03:41:04.5033169Z Current runner version: '2.306.0'
+2023-07-27T03:41:04.5066074Z ##[group]Operating System
+2023-07-27T03:41:04.5066775Z Ubuntu
+2023-07-27T03:41:04.5067084Z 22.04.2
+2023-07-27T03:41:04.5067547Z LTS
+2023-07-27T03:41:04.5067932Z ##[endgroup]
+2023-07-27T03:41:04.5068284Z ##[group]Runner Image
+2023-07-27T03:41:04.5068726Z Image: ubuntu-22.04
+2023-07-27T03:41:04.5069146Z Version: 20230724.1.0
+2023-07-27T03:41:04.5069783Z Included Software: https://github.com/actions/runner-images/blob/ubuntu22/20230724.1/images/linux/Ubuntu2204-Readme.md
+2023-07-27T03:41:04.5070582Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20230724.1
+2023-07-27T03:41:04.5071164Z ##[endgroup]
+2023-07-27T03:41:04.5071542Z ##[group]Runner Image Provisioner
+2023-07-27T03:41:04.5071993Z 2.0.238.1
+2023-07-27T03:41:04.5072428Z ##[endgroup]
+2023-07-27T03:41:04.5073212Z ##[group]GITHUB_TOKEN Permissions
+2023-07-27T03:41:04.5073914Z Contents: read
+2023-07-27T03:41:04.5074339Z Metadata: read
+2023-07-27T03:41:04.5075019Z Pages: write
+2023-07-27T03:41:04.5075518Z ##[endgroup]
+2023-07-27T03:41:04.5079787Z Secret source: Actions
+2023-07-27T03:41:04.5080540Z Prepare workflow directory
+2023-07-27T03:41:04.6007008Z Prepare all required actions
+2023-07-27T03:41:04.6245930Z Getting action download info
+2023-07-27T03:41:04.8868563Z Download action repository 'actions/checkout@v3' (SHA:c85c95e3d7251135ab7dc9ce3241c5835cc595a9)
+2023-07-27T03:41:05.5761303Z Download action repository 'actions/configure-pages@v3' (SHA:f156874f8191504dae5b037505266ed5dda6c382)
+2023-07-27T03:41:06.1894341Z Download action repository 'actions/upload-pages-artifact@v2' (SHA:a753861a5debcf57bf8b404356158c8e1e33150c)
+2023-07-27T03:41:06.5600851Z Download action repository 'actions/deploy-pages@v2' (SHA:12ab2b16cf43a7a061fe99da74b6f8f11fb77f5b)
+2023-07-27T03:41:07.3279271Z Getting action download info
+2023-07-27T03:41:07.4491049Z Download action repository 'actions/upload-artifact@v3' (SHA:0b7f8abb1508181956e8e162db84b466c27e18ce)
+2023-07-27T03:41:07.9747283Z Complete job name: deploy
+2023-07-27T03:41:08.1145052Z ##[group]Run actions/checkout@v3
+2023-07-27T03:41:08.1145404Z with:
+2023-07-27T03:41:08.1145675Z   repository: dctii/selenium-test
+2023-07-27T03:41:08.1146302Z   token: ***
+2023-07-27T03:41:08.1146558Z   ssh-strict: true
+2023-07-27T03:41:08.1146812Z   persist-credentials: true
+2023-07-27T03:41:08.1147084Z   clean: true
+2023-07-27T03:41:08.1147357Z   sparse-checkout-cone-mode: true
+2023-07-27T03:41:08.1147627Z   fetch-depth: 1
+2023-07-27T03:41:08.1147869Z   lfs: false
+2023-07-27T03:41:08.1148102Z   submodules: false
+2023-07-27T03:41:08.1148347Z   set-safe-directory: true
+2023-07-27T03:41:08.1148611Z ##[endgroup]
+2023-07-27T03:41:08.4375497Z Syncing repository: dctii/selenium-test
+2023-07-27T03:41:08.4377656Z ##[group]Getting Git version info
+2023-07-27T03:41:08.4378251Z Working directory is '/home/runner/work/selenium-test/selenium-test'
+2023-07-27T03:41:08.4378907Z [command]/usr/bin/git version
+2023-07-27T03:41:08.4448953Z git version 2.41.0
+2023-07-27T03:41:08.4486164Z ##[endgroup]
+2023-07-27T03:41:08.4507890Z Temporarily overriding HOME='/home/runner/work/_temp/f64284d7-de5e-4814-9b7d-cacbb8856ffe' before making global git config changes
+2023-07-27T03:41:08.4508460Z Adding repository directory to the temporary git global config as a safe directory
+2023-07-27T03:41:08.4516016Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/selenium-test/selenium-test
+2023-07-27T03:41:08.4571234Z Deleting the contents of '/home/runner/work/selenium-test/selenium-test'
+2023-07-27T03:41:08.4577768Z ##[group]Initializing the repository
+2023-07-27T03:41:08.4584884Z [command]/usr/bin/git init /home/runner/work/selenium-test/selenium-test
+2023-07-27T03:41:08.4718466Z hint: Using 'master' as the name for the initial branch. This default branch name
+2023-07-27T03:41:08.4718952Z hint: is subject to change. To configure the initial branch name to use in all
+2023-07-27T03:41:08.4719379Z hint: of your new repositories, which will suppress this warning, call:
+2023-07-27T03:41:08.4720136Z hint: 
+2023-07-27T03:41:08.4720555Z hint: 	git config --global init.defaultBranch <name>
+2023-07-27T03:41:08.4720835Z hint: 
+2023-07-27T03:41:08.4721243Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2023-07-27T03:41:08.4721766Z hint: 'development'. The just-created branch can be renamed via this command:
+2023-07-27T03:41:08.4722072Z hint: 
+2023-07-27T03:41:08.4722359Z hint: 	git branch -m <name>
+2023-07-27T03:41:08.4722854Z Initialized empty Git repository in /home/runner/work/selenium-test/selenium-test/.git/
+2023-07-27T03:41:08.4723979Z [command]/usr/bin/git remote add origin https://github.com/dctii/selenium-test
+2023-07-27T03:41:08.4777018Z ##[endgroup]
+2023-07-27T03:41:08.4777520Z ##[group]Disabling automatic garbage collection
+2023-07-27T03:41:08.4783077Z [command]/usr/bin/git config --local gc.auto 0
+2023-07-27T03:41:08.4821117Z ##[endgroup]
+2023-07-27T03:41:08.4821707Z ##[group]Setting up auth
+2023-07-27T03:41:08.4831174Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2023-07-27T03:41:08.4871152Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2023-07-27T03:41:08.5318194Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2023-07-27T03:41:08.5348303Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2023-07-27T03:41:08.5703611Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2023-07-27T03:41:08.5769709Z ##[endgroup]
+2023-07-27T03:41:08.5770489Z ##[group]Fetching the repository
+2023-07-27T03:41:08.5782462Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +c80341d63eb4dc0a03bc7af9c1368b2f0d06e9c7:refs/remotes/origin/main
+2023-07-27T03:41:08.8984734Z remote: Enumerating objects: 39, done.        
+2023-07-27T03:41:08.8989240Z remote: Counting objects:   2% (1/39)        
+2023-07-27T03:41:08.8990239Z remote: Counting objects:   5% (2/39)        
+2023-07-27T03:41:08.8990863Z remote: Counting objects:   7% (3/39)        
+2023-07-27T03:41:08.8991655Z remote: Counting objects:  10% (4/39)        
+2023-07-27T03:41:08.8992227Z remote: Counting objects:  12% (5/39)        
+2023-07-27T03:41:08.8993019Z remote: Counting objects:  15% (6/39)        
+2023-07-27T03:41:08.8993581Z remote: Counting objects:  17% (7/39)        
+2023-07-27T03:41:08.8994347Z remote: Counting objects:  20% (8/39)        
+2023-07-27T03:41:08.8994910Z remote: Counting objects:  23% (9/39)        
+2023-07-27T03:41:08.8995883Z remote: Counting objects:  25% (10/39)        
+2023-07-27T03:41:08.8996464Z remote: Counting objects:  28% (11/39)        
+2023-07-27T03:41:08.8997255Z remote: Counting objects:  30% (12/39)        
+2023-07-27T03:41:08.8997849Z remote: Counting objects:  33% (13/39)        
+2023-07-27T03:41:08.8998652Z remote: Counting objects:  35% (14/39)        
+2023-07-27T03:41:08.8999213Z remote: Counting objects:  38% (15/39)        
+2023-07-27T03:41:08.9000004Z remote: Counting objects:  41% (16/39)        
+2023-07-27T03:41:08.9000635Z remote: Counting objects:  43% (17/39)        
+2023-07-27T03:41:08.9001440Z remote: Counting objects:  46% (18/39)        
+2023-07-27T03:41:08.9001994Z remote: Counting objects:  48% (19/39)        
+2023-07-27T03:41:08.9002795Z remote: Counting objects:  51% (20/39)        
+2023-07-27T03:41:08.9003380Z remote: Counting objects:  53% (21/39)        
+2023-07-27T03:41:08.9004157Z remote: Counting objects:  56% (22/39)        
+2023-07-27T03:41:08.9004744Z remote: Counting objects:  58% (23/39)        
+2023-07-27T03:41:08.9006575Z remote: Counting objects:  61% (24/39)        
+2023-07-27T03:41:08.9007184Z remote: Counting objects:  64% (25/39)        
+2023-07-27T03:41:08.9008705Z remote: Counting objects:  66% (26/39)        
+2023-07-27T03:41:08.9009312Z remote: Counting objects:  69% (27/39)        
+2023-07-27T03:41:08.9010181Z remote: Counting objects:  71% (28/39)        
+2023-07-27T03:41:08.9010934Z remote: Counting objects:  74% (29/39)        
+2023-07-27T03:41:08.9011768Z remote: Counting objects:  76% (30/39)        
+2023-07-27T03:41:08.9012382Z remote: Counting objects:  79% (31/39)        
+2023-07-27T03:41:08.9013174Z remote: Counting objects:  82% (32/39)        
+2023-07-27T03:41:08.9013737Z remote: Counting objects:  84% (33/39)        
+2023-07-27T03:41:08.9014749Z remote: Counting objects:  87% (34/39)        
+2023-07-27T03:41:08.9015310Z remote: Counting objects:  89% (35/39)        
+2023-07-27T03:41:08.9016159Z remote: Counting objects:  92% (36/39)        
+2023-07-27T03:41:08.9016721Z remote: Counting objects:  94% (37/39)        
+2023-07-27T03:41:08.9017483Z remote: Counting objects:  97% (38/39)        
+2023-07-27T03:41:08.9018150Z remote: Counting objects: 100% (39/39)        
+2023-07-27T03:41:08.9019387Z remote: Counting objects: 100% (39/39), done.        
+2023-07-27T03:41:08.9020178Z remote: Compressing objects:   2% (1/35)        
+2023-07-27T03:41:08.9021173Z remote: Compressing objects:   5% (2/35)        
+2023-07-27T03:41:08.9021498Z remote: Compressing objects:   8% (3/35)        
+2023-07-27T03:41:08.9021818Z remote: Compressing objects:  11% (4/35)        
+2023-07-27T03:41:08.9022118Z remote: Compressing objects:  14% (5/35)        
+2023-07-27T03:41:08.9022435Z remote: Compressing objects:  17% (6/35)        
+2023-07-27T03:41:08.9022748Z remote: Compressing objects:  20% (7/35)        
+2023-07-27T03:41:08.9023058Z remote: Compressing objects:  22% (8/35)        
+2023-07-27T03:41:08.9023355Z remote: Compressing objects:  25% (9/35)        
+2023-07-27T03:41:08.9024400Z remote: Compressing objects:  28% (10/35)        
+2023-07-27T03:41:08.9025198Z remote: Compressing objects:  31% (11/35)        
+2023-07-27T03:41:08.9025801Z remote: Compressing objects:  34% (12/35)        
+2023-07-27T03:41:08.9026163Z remote: Compressing objects:  37% (13/35)        
+2023-07-27T03:41:08.9026477Z remote: Compressing objects:  40% (14/35)        
+2023-07-27T03:41:08.9026773Z remote: Compressing objects:  42% (15/35)        
+2023-07-27T03:41:08.9027665Z remote: Compressing objects:  45% (16/35)        
+2023-07-27T03:41:08.9028436Z remote: Compressing objects:  48% (17/35)        
+2023-07-27T03:41:08.9028769Z remote: Compressing objects:  51% (18/35)        
+2023-07-27T03:41:08.9029065Z remote: Compressing objects:  54% (19/35)        
+2023-07-27T03:41:08.9029372Z remote: Compressing objects:  57% (20/35)        
+2023-07-27T03:41:08.9030200Z remote: Compressing objects:  60% (21/35)        
+2023-07-27T03:41:08.9030506Z remote: Compressing objects:  62% (22/35)        
+2023-07-27T03:41:09.8742020Z remote: Compressing objects:  65% (23/35)        
+2023-07-27T03:41:09.8742975Z remote: Compressing objects:  68% (24/35)        
+2023-07-27T03:41:09.8766068Z remote: Compressing objects:  71% (25/35)        
+2023-07-27T03:41:09.8766458Z remote: Compressing objects:  74% (26/35)        
+2023-07-27T03:41:09.8766788Z remote: Compressing objects:  77% (27/35)        
+2023-07-27T03:41:09.8767096Z remote: Compressing objects:  80% (28/35)        
+2023-07-27T03:41:09.8767418Z remote: Compressing objects:  82% (29/35)        
+2023-07-27T03:41:09.8767738Z remote: Compressing objects:  85% (30/35)        
+2023-07-27T03:41:09.8768230Z remote: Compressing objects:  88% (31/35)        
+2023-07-27T03:41:09.8768550Z remote: Compressing objects:  91% (32/35)        
+2023-07-27T03:41:09.8768863Z remote: Compressing objects:  94% (33/35)        
+2023-07-27T03:41:09.8794748Z remote: Compressing objects:  97% (34/35)        
+2023-07-27T03:41:09.8795097Z remote: Compressing objects: 100% (35/35)        
+2023-07-27T03:41:09.8796892Z remote: Compressing objects: 100% (35/35), done.        
+2023-07-27T03:41:12.0169411Z remote: Total 39 (delta 1), reused 30 (delta 0), pack-reused 0        
+2023-07-27T03:41:12.6962719Z From https://github.com/dctii/selenium-test
+2023-07-27T03:41:12.6963662Z  * [new ref]         c80341d63eb4dc0a03bc7af9c1368b2f0d06e9c7 -> origin/main
+2023-07-27T03:41:12.6997871Z ##[endgroup]
+2023-07-27T03:41:12.6998517Z ##[group]Determining the checkout info
+2023-07-27T03:41:12.7093651Z ##[endgroup]
+2023-07-27T03:41:12.7094130Z ##[group]Checking out the ref
+2023-07-27T03:41:12.7094730Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2023-07-27T03:41:13.1361306Z Switched to a new branch 'main'
+2023-07-27T03:41:13.1369704Z branch 'main' set up to track 'origin/main'.
+2023-07-27T03:41:13.1370866Z ##[endgroup]
+2023-07-27T03:41:13.1419640Z [command]/usr/bin/git log -1 --format='%H'
+2023-07-27T03:41:13.1453407Z 'c80341d63eb4dc0a03bc7af9c1368b2f0d06e9c7'
+2023-07-27T03:41:13.1891168Z ##[group]Run ls -a
+2023-07-27T03:41:13.1891510Z [36;1mls -a[0m
+2023-07-27T03:41:13.1957081Z shell: /usr/bin/bash -e {0}
+2023-07-27T03:41:13.1957364Z ##[endgroup]
+2023-07-27T03:41:13.2152852Z .
+2023-07-27T03:41:13.2153097Z ..
+2023-07-27T03:41:13.2155665Z .DS_Store
+2023-07-27T03:41:13.2156119Z .git
+2023-07-27T03:41:13.2156342Z .gitattributes
+2023-07-27T03:41:13.2156588Z .github
+2023-07-27T03:41:13.2156793Z .gitignore
+2023-07-27T03:41:13.2157007Z behave.ini
+2023-07-27T03:41:13.2157218Z environment.py
+2023-07-27T03:41:13.2157438Z features
+2023-07-27T03:41:13.2157650Z nohup.out
+2023-07-27T03:41:13.2157858Z pyproject.toml
+2023-07-27T03:41:13.2158098Z requirements.txt
+2023-07-27T03:41:13.2158304Z src
+2023-07-27T03:41:13.2158500Z steps
+2023-07-27T03:41:13.2158696Z test
+2023-07-27T03:41:13.2158876Z utils
+2023-07-27T03:41:13.2205171Z ##[group]Run actions/configure-pages@v3
+2023-07-27T03:41:13.2205464Z with:
+2023-07-27T03:41:13.2205827Z   token: ***
+2023-07-27T03:41:13.2206059Z   enablement: false
+2023-07-27T03:41:13.2206273Z ##[endgroup]
+2023-07-27T03:41:13.5923564Z ##[group]Run actions/upload-pages-artifact@v2
+2023-07-27T03:41:13.5923905Z with:
+2023-07-27T03:41:13.5924143Z   path: ./allure-report
+2023-07-27T03:41:13.5924414Z   name: github-pages
+2023-07-27T03:41:13.5924663Z   retention-days: 1
+2023-07-27T03:41:13.5924908Z env:
+2023-07-27T03:41:13.5925119Z   GITHUB_PAGES: true
+2023-07-27T03:41:13.5925352Z ##[endgroup]
+2023-07-27T03:41:13.6241908Z ##[group]Run tar \
+2023-07-27T03:41:13.6242171Z [36;1mtar \[0m
+2023-07-27T03:41:13.6242457Z [36;1m  --dereference --hard-dereference \[0m
+2023-07-27T03:41:13.6242761Z [36;1m  --directory "$INPUT_PATH" \[0m
+2023-07-27T03:41:13.6243075Z [36;1m  -cvf "$RUNNER_TEMP/artifact.tar" \[0m
+2023-07-27T03:41:13.6243361Z [36;1m  --exclude=.git \[0m
+2023-07-27T03:41:13.6243609Z [36;1m  --exclude=.github \[0m
+2023-07-27T03:41:13.6243852Z [36;1m  .[0m
+2023-07-27T03:41:13.6318569Z shell: /usr/bin/sh -e {0}
+2023-07-27T03:41:13.6318856Z env:
+2023-07-27T03:41:13.6319078Z   GITHUB_PAGES: true
+2023-07-27T03:41:13.6319525Z   INPUT_PATH: ./allure-report
+2023-07-27T03:41:13.6319771Z ##[endgroup]
+2023-07-27T03:41:13.6407529Z tar: allure-report: Cannot open: No such file or directory
+2023-07-27T03:41:13.6408804Z tar: Error is not recoverable: exiting now
+2023-07-27T03:41:13.6426394Z ##[error]Process completed with exit code 2.
+2023-07-27T03:41:13.6531305Z Post job cleanup.
+2023-07-27T03:41:13.7797576Z [command]/usr/bin/git version
+2023-07-27T03:41:13.7854685Z git version 2.41.0
+2023-07-27T03:41:13.7915835Z Temporarily overriding HOME='/home/runner/work/_temp/323273cc-4831-4ad8-97bf-1f967c1aa2ed' before making global git config changes
+2023-07-27T03:41:13.7917512Z Adding repository directory to the temporary git global config as a safe directory
+2023-07-27T03:41:13.7924681Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/selenium-test/selenium-test
+2023-07-27T03:41:13.8034974Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2023-07-27T03:41:13.8074157Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2023-07-27T03:41:13.8339991Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2023-07-27T03:41:13.8366505Z http.https://github.com/.extraheader
+2023-07-27T03:41:13.8381824Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2023-07-27T03:41:13.8421833Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2023-07-27T03:41:13.8924839Z Evaluate and set environment url
+2023-07-27T03:41:13.8931076Z Evaluated environment url: 
+2023-07-27T03:41:13.8931565Z Cleaning up orphan processes
