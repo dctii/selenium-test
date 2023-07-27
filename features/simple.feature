@@ -10,5 +10,5 @@ Feature: Simple home page visit
     Given I navigate to the example dot com
 
   @simple
-  Scenaro: Visit a site that does not exist
+  Scenario: Visit a site that does not exist
     Given I navigate to a website that does not exist
