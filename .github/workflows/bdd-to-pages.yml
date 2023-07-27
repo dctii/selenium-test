@@ -1,6 +1,18 @@
-name: Allure workflow to GitHub Pages
+name: Allure Report on GitHub Pages
 on:
+  push:
+    branches: ["main"]
+
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   test:
@@ -9,7 +21,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
 
-      - name: Set up python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -45,7 +57,6 @@ jobs:
       - name: Generate and server allure report
         run: |
           source .venv/bin/activate \
-          && echo $(pwd) \
           && PROJECT_DIR="$(echo $(pwd))" \
           && TEST_RESULTS_DIR="./allure-results" \
           && OUTPUT_REPORT_DIR="./allure-report" \
@@ -53,24 +64,17 @@ jobs:
           && allure generate $TEST_RESULTS_DIR \
             -o $OUTPUT_REPORT_DIR \
             --clean \
-          && nohup python3 -m http.server 8080 --directory $OUTPUT_REPORT_DIR &
-
-      - name: Unset variables
-        run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR ALLURE_PORT
+          && unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR
 
       - name: GET localhost:8080
         run: |
           ps aux | grep 'http.server' \
-          && curl --location 'http://localhost:8080'
+          && curl --location 'http://localhost:$ALLURE_PORT'
 
       - name: Kill allure server
         run: |
-          echo "Checking to see the processes that include 'http.server'" \
-          && ps aux | grep 'http.server' \
-          && echo "Attempting to kill http.server" \
-          && pkill -f 'python3 -m http.server 8080 --directory ./allure-report' \
-          && echo "Checking to see if http.server had been killed" \
-          && ps aux | grep 'http.server'
+          pkill -f 'python3 -m http.server $ALLURE_PORT --directory ./allure-report' \
+          && unset ALLURE_PORT
 
         
 
