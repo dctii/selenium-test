@@ -56,14 +56,17 @@ jobs:
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
             --outfile $TEST_RESULTS_DIR \
-            --include simple 2>&1) 
+            --include simple 2>&1)
+        continue-on-error: true
+
+      - name: Create annotation for BDD test
+        run: |
           if [ $? -eq 0 ]; then
             echo "::notice::${BEHAVE_OUTPUT}"
           else
             echo "::error::${BEHAVE_OUTPUT}"
           fi
           unset BEHAVE_OUTPUT
-        continue-on-error: true
 
 
       - name: Generate the HTML allure report
