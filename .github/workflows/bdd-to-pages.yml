@@ -93,16 +93,26 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
-#      - name: Upload artifact
-#        uses: actions/upload-pages-artifact@v2
-#        with:
-#          path: './allure-report'
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './allure-report'
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
 
       - name: Delete allure-report artifact
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: allure-report
+#        uses: geekyeggo/delete-artifact@v2
+#        with:
+#          name: allure-report
+        run: |
+          artifact_name="my-artifact"
+          owner="my-user-or-org"
+          repo="my-repo"
+
+          artifact_id=$(curl -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/$owner/$repo/actions/artifacts" | \
+            jq -r ".artifacts[] | select(.name==\"$artifact_name\") | .id") \
+          && curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/$owner/$repo/actions/artifacts/$artifact_id"
