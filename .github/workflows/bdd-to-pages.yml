@@ -57,9 +57,13 @@ jobs:
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1)
-          
-          echo "::notice::Great work"
         continue-on-error: true
+
+      - name: Test adding annotation notice
+        run: echo "::notice::Great work"
+
+      - name: Test adding annotation notice
+        run: echo "::error::Bad work"
 
       - name: Echo BEHAVE OUTPUT
         run: |
