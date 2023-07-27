@@ -15,12 +15,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  test:
+  bdd-test:
     runs-on: ubuntu-latest
     env:
       TEST_RESULTS_DIR: allure-results
-      OUTPUT_REPORT_DIR: allure-report
-      ALLURE_PORT: 8080
+      ALLURE_REPORT_DIR: allure-report
 
     steps:
       - name: Get code
@@ -59,25 +58,31 @@ jobs:
             --outfile $TEST_RESULTS_DIR \
             --include simple
 
-      - name: Generate and server allure report
+      - name: Generate the HTML allure report
         run: |
           source .venv/bin/activate \
           && allure generate "./$TEST_RESULTS_DIR" \
-            -o "./$OUTPUT_REPORT_DIR" \
+            -o "./$ALLURE_REPORT_DIR" \
             --clean
-      
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          personal_token: ${{ secrets.PERSONAL_TOKEN }}
-          publish_dir: ./allure-report
 
-        
-
-  finished:
-    needs: test
+  deploy:
+    needs: bdd-test
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Announce successful completion
-        run: echo "Completed successfully!"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './allure-report'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
