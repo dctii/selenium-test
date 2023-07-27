@@ -115,16 +115,16 @@ jobs:
           REPO="${{ github.repository }}"
           API_URL="${{ github.api_url }}"
           
-          RESPONSE=$(curl -H "Authorization: token $GITHUB_TOKEN" \
+          RESPONSE=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$owner/$repo/actions/artifacts")
           
-          echo $RESPONSE
+          echo "$RESPONSE"
 
           ARTIFACT_ID=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "${{ github.api_url }}/repos/${{ github.repository }}/actions/artifacts" | \
             jq -r ".artifacts[] | select(.name==\"allure-report\") | .id")
           
-          echo $ARTIFACT_ID
+          echo "$ARTIFACT_ID"
           
           curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "${{ github.api_url }}/repos/${{ github.repository }}/actions/artifacts/$ARTIFACT_ID"
