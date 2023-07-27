@@ -50,19 +50,20 @@ jobs:
       - name: Run simple BDD test
         run: |
           source .venv/bin/activate
-          output=$(behave \
+          behave_output=$(behave \
             --verbose \
             --tags=@simple \
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
             --outfile $TEST_RESULTS_DIR \
-            --include simple 2>&1) || true
-          if [ $? -eq 0 ]; then
-            echo "::notice::${output}"
+            --include simple 2>&1) || behave_exit_code=$?
+          if [ "$behave_exit_code" -eq 0 ]; then
+            echo "::notice::${behave_output}"
           else
-            echo "::error::${output}"
+            echo "::error::${behave_output}"
           fi
         continue-on-error: true
+
 
 
       - name: Generate the HTML allure report
