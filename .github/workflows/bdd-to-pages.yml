@@ -34,17 +34,16 @@ jobs:
 
       - name: Generate and server allure report
         run: |
-          source .venv/bin/activate
-          echo $(pwd)
-          PROJECT_DIR="$(echo $(pwd))"
-          TEST_RESULTS_DIR="./allure-results"
-          OUTPUT_REPORT_DIR="./allure-report"
-          ALLURE_PORT="8080"
-          
-          allure generate $TEST_RESULTS_DIR \
+          source .venv/bin/activate \
+          && echo $(pwd) \
+          && PROJECT_DIR="$(echo $(pwd))" \
+          && TEST_RESULTS_DIR="./allure-results" \
+          && OUTPUT_REPORT_DIR="./allure-report" \
+          && ALLURE_PORT="8080" \
+          && allure generate $TEST_RESULTS_DIR \
             -o $OUTPUT_REPORT_DIR \
             --clean \
-          && nohup python3 -m http.server 8080 & \
+          && nohup python3 -m http.server 8080 &
 
       - name: Unset variables
         run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR
@@ -53,10 +52,9 @@ jobs:
         run: curl --location --globoff '[::]:8080'
 
       - name: Kill allure server
-        run: kill -9 $(ps aux | grep 'http.server $ALLURE_PORT' | awk '{print $2}')
-
-      - name: Deactivate virtual environment
-        run: deactivate
+        run: |
+          ps aux | grep 'http.server' \
+          && kill -9 $(ps aux | grep 'http.server $ALLURE_PORT' | awk '{print $2}')
 
         
 
