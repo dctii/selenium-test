@@ -64,13 +64,7 @@ jobs:
           && allure generate $TEST_RESULTS_DIR \
             -o $OUTPUT_REPORT_DIR \
             --clean \
-          && unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR
-
-      - name: GET localhost:8080
-        run: |
-          ps aux | grep 'http.server' \
-          && curl --location 'http://localhost:$ALLURE_PORT' \
-          && unset ALLURE_PORT
+          && unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR ALLURE_PORT
 
         
 
