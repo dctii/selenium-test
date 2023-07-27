@@ -102,13 +102,11 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v2
 
-      - name: Echo GITHUB API URL
-        run: echo ${{ github.api_url }}
-
+  clean-artifacts:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
       - name: Delete allure-report artifact
-#        uses: geekyeggo/delete-artifact@v2
-#        with:
-#          name: allure-report
         run: |
           ARTIFACT_NAME="allure-report"
           OWNER="${{ github.repository_owner }}"
@@ -118,13 +116,11 @@ jobs:
           RESPONSE=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$owner/$repo/actions/artifacts")
           
-          echo "$RESPONSE"
 
           ARTIFACT_ID=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "${{ github.api_url }}/repos/${{ github.repository }}/actions/artifacts" | \
             jq -r ".artifacts[] | select(.name==\"allure-report\") | .id")
           
-          echo "$ARTIFACT_ID"
           
           curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "${{ github.api_url }}/repos/${{ github.repository }}/actions/artifacts/$ARTIFACT_ID"
