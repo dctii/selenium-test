@@ -59,7 +59,9 @@ jobs:
         run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR
 
       - name: GET localhost:8080
-        run: curl --location --globoff '[::]:8080'
+        run: |
+          ps aux | grep 'http.server' \
+          && curl --location 'http://localhost:8080'
 
       - name: Kill allure server
         run: |
