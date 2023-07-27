@@ -116,9 +116,9 @@ jobs:
           API_URL="${{ github.api_url }}"
 
           ARTIFACT_ID=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "$API_URL/repos/$OWNER/$REPO/actions/artifacts" | \
-            jq -r ".artifacts[] | select(.name==\"$ARTIFACT_NAME\") | .id") \
+            "${{ github.api_url }}/repos/${{ github.repository }}/actions/artifacts" | \
+            jq -r ".artifacts[] | select(.name==\"allure-report\") | .id") \
           && curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "$API_URL/repos/$OWNER/$REPO/actions/artifacts/$ARTIFACT_ID"
+            "${{ github.api_url }}/repos/${{ github.repository }}/actions/artifacts/$ARTIFACT_ID"
           
           unset ARTIFACT_NAME OWNER REPO API_URL
