@@ -69,11 +69,7 @@ jobs:
       - name: GET localhost:8080
         run: |
           ps aux | grep 'http.server' \
-          && curl --location 'http://localhost:$ALLURE_PORT'
-
-      - name: Kill allure server
-        run: |
-          pkill -f 'python3 -m http.server $ALLURE_PORT --directory ./allure-report' \
+          && curl --location 'http://localhost:$ALLURE_PORT' \
           && unset ALLURE_PORT
 
         
