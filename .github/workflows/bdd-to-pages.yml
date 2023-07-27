@@ -85,7 +85,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: allure-report
-          path: ./allure-report
+          path: './allure-report'
 
       - name: Preview contents
         run: ls -a
@@ -101,3 +101,16 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+
+      - name: Delete allure-report artifact
+        run: |
+          artifact_id=$(curl \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | jq '.artifacts[] | select(.name=="allure-report") | .id')
+      
+          curl \
+            -X DELETE \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$artifact_id"

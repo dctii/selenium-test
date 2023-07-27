@@ -8,3 +8,7 @@ Feature: Simple home page visit
   @simple
   Scenario: Visit example dot com
     Given I navigate to the example dot com
+
+  @simple
+  Scenario: Visit a site that does not exist
+    Given I navigate to the example dot com

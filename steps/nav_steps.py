@@ -11,3 +11,8 @@ def homepage_nav(context):
 @step('I navigate to the example dot com')
 def homepage_nav(context):
     UrlNavigationPage(context).visit_url('https://www.example.com')
+
+
+@step('I navigate to a website that does not exist')
+def homepage_nav(context):
+    UrlNavigationPage(context).visit_url('https://www.22lkjldaskldajslda.com')
