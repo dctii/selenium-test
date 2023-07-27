@@ -65,8 +65,11 @@ jobs:
 
       - name: Kill allure server
         run: |
-          ps aux | grep 'http.server' \
+          echo "Checking to see the processes that include 'http.server'" \
+          && ps aux | grep 'http.server' \
+          && echo "Attempting to kill http.server" \
           && pkill -f 'python3 -m http.server 8080 --directory ./allure-report' \
+          && echo "Checking to see if http.server had been killed" \
           && ps aux | grep 'http.server'
 
         
