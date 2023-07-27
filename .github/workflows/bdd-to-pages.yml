@@ -57,6 +57,7 @@ jobs:
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple
+        continue-on-error: true
 
       - name: Generate the HTML allure report
         run: |
@@ -102,17 +103,9 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v2
 
-  clean-artifacts:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
       - name: Delete allure-report artifact
-        run: |
-          ARTIFACT_ID=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "${{ github.api_url }}/repos/${{ github.repository }}/actions/artifacts" | \
-            jq -r ".artifacts[] | select(.name==\"allure-report\") | .id")
-          
-          
-          curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "${{ github.api_url }}/repos/${{ github.repository }}/actions/artifacts/$ARTIFACT_ID"
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: allure-report
+          failOnError: true
           
