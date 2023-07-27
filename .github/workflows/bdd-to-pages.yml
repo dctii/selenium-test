@@ -35,8 +35,8 @@ jobs:
       - name: Generate and server allure report
         run: |
           source .venv/bin/activate
-          echo pwd
-          PROJECT_DIR="$(echo pwd)"
+          echo $(pwd)
+          PROJECT_DIR="$(echo $(pwd))"
           TEST_RESULTS_DIR="./allure-results"
           OUTPUT_REPORT_DIR="./allure-report"
           ALLURE_PORT="8080"
@@ -44,13 +44,13 @@ jobs:
           allure generate $TEST_RESULTS_DIR \
             -o $OUTPUT_REPORT_DIR \
             --clean \
-          && nohup python3 -m http.server $ALLURE_PORT & \
+          && nohup python3 -m http.server 8080 & \
 
       - name: Unset variables
         run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR
 
       - name: GET localhost:8080
-        run: curl --location --globoff '[::]:$ALLURE_PORT'
+        run: curl --location --globoff '[::]:8080'
 
       - name: Kill allure server
         run: kill -9 $(ps aux | grep 'http.server $ALLURE_PORT' | awk '{print $2}')
