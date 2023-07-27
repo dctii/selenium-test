@@ -56,7 +56,7 @@ jobs:
           && nohup python3 -m http.server 8080 --directory $OUTPUT_REPORT_DIR &
 
       - name: Unset variables
-        run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR
+        run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR ALLURE_PORT
 
       - name: GET localhost:8080
         run: |
