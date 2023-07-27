@@ -110,12 +110,15 @@ jobs:
 #        with:
 #          name: allure-report
         run: |
-          artifact_name="allure-report"
-          owner=${{ github.repository_owner }}
-          repo=${{ github.repository }}
+          ARTIFACT_NAME="allure-report"
+          OWNER="${{ github.repository_owner }}"
+          REPO="${{ github.repository }}"
+          API_URL="${{ github.api_url }}"
 
-          artifact_id=$(curl -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/$owner/$repo/actions/artifacts" | \
-            jq -r ".artifacts[] | select(.name==\"$artifact_name\") | .id") \
-          && curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/$owner/$repo/actions/artifacts/$artifact_id"
+          ARTIFACT_ID=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "$API_URL/repos/$OWNER/$REPO/actions/artifacts" | \
+            jq -r ".artifacts[] | select(.name==\"$ARTIFACT_NAME\") | .id") \
+          && curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "$API_URL/repos/$OWNER/$REPO/actions/artifacts/$ARTIFACT_ID"
+          
+          unset ARTIFACT_NAME OWNER REPO API_URL
