@@ -105,4 +105,4 @@ jobs:
       - name: Delete allure-report artifact
         uses: geekyeggo/delete-artifact@v2
         with:
-          name: my-artifact
+          name: allure-report
