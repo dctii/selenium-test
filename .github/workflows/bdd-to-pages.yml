@@ -50,15 +50,16 @@ jobs:
       - name: Run simple BDD test
         run: |
           source .venv/bin/activate
-          output=$(behave \
+          BEHAVE_OUTPUT=$(behave \
             --verbose \
             --tags=@simple \
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || BEHAVE_EXIT_CODE=$?
-          IMPORTANT_LINE=$(echo "$output" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
+          IMPORTANT_LINE=$(echo "$BEHAVE_OUTPUT" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
           if [ "$GREP_EXIT_CODE" -eq 1 ]; then
+            echo $BEHAVE_OUTPUT
             echo "::error::ERROR with Exit Code ${BEHAVE_EXIT_CODE}"
           else
             if [[ "$IMPORTANT_LINE" =~ "0 features passed" ]]; then
