@@ -7,3 +7,7 @@ from src.pages.url_navigation_page import UrlNavigationPage
 def homepage_nav(context):
     UrlNavigationPage(context).visit_url(context.env)
 
+
+@step('I navigate to the example dot com')
+def homepage_nav(context):
+    UrlNavigationPage(context).visit_url('https://www.example.com')
