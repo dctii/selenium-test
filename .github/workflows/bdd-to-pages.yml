@@ -57,7 +57,6 @@ jobs:
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || behave_exit_code=$?
-          success_exit_code=$?
           important_line=$(echo "$output" | grep -o '[0-9]* feature\(s\)\? passed.*')
           if [ "$behave_exit_code" -eq 1 ]; then
             echo "::error::${important_line}"
