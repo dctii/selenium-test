@@ -102,14 +102,17 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v2
 
+      - name: Echo GITHUB API URL
+        run: echo ${{ github.api_url }}
+
       - name: Delete allure-report artifact
 #        uses: geekyeggo/delete-artifact@v2
 #        with:
 #          name: allure-report
         run: |
-          artifact_name="my-artifact"
-          owner="my-user-or-org"
-          repo="my-repo"
+          artifact_name="allure-report"
+          owner=${{ github.repository_owner }}
+          repo=${{ github.repository }}
 
           artifact_id=$(curl -H "Authorization: token $GITHUB_TOKEN" \
             "https://api.github.com/repos/$owner/$repo/actions/artifacts" | \
