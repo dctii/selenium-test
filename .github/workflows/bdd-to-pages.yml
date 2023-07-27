@@ -53,7 +53,7 @@ jobs:
           && allure generate $TEST_RESULTS_DIR \
             -o $OUTPUT_REPORT_DIR \
             --clean \
-          && nohup python3 -m http.server 8080 &
+          && nohup python3 -m http.server 8080 --directory $OUTPUT_REPORT_DIR &
 
       - name: Unset variables
         run: unset TEST_RESULTS_DIR OUTPUT_REPORT_DIR
@@ -66,7 +66,7 @@ jobs:
       - name: Kill allure server
         run: |
           ps aux | grep 'http.server' \
-          && kill -9 $(ps aux | grep 'http.server $ALLURE_PORT' | awk '{print $2}')
+          && kill -9 $(ps aux | grep 'http.server 8080' | awk '{print $2}')
 
         
 
