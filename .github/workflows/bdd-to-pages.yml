@@ -57,17 +57,13 @@ jobs:
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1)
+          
+          echo "::notice::Great work"
         continue-on-error: true
 
       - name: Echo BEHAVE OUTPUT
         run: |
           echo $BEHAVE_OUTPUT
-          if [ $? -eq 0 ]; then
-            echo "::notice::${BEHAVE_OUTPUT}"
-          else
-            echo "::error::${BEHAVE_OUTPUT}"
-          fi
-          unset BEHAVE_OUTPUT
 
 
       - name: Generate the HTML allure report
