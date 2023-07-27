@@ -50,24 +50,19 @@ jobs:
       - name: Run simple BDD test
         run: |
           source .venv/bin/activate
-          BEHAVE_OUTPUT=$(behave \
+          output=$(behave \
             --verbose \
             --tags=@simple \
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
             --outfile $TEST_RESULTS_DIR \
-            --include simple 2>&1)
+            --include simple 2>&1) || true
+          if [ $? -eq 0 ]; then
+            echo "::notice::${output}"
+          else
+            echo "::error::${output}"
+          fi
         continue-on-error: true
-
-      - name: Test adding annotation notice
-        run: echo "::notice::Great work"
-
-      - name: Test adding annotation notice
-        run: echo "::error::Bad work"
-
-      - name: Echo BEHAVE OUTPUT
-        run: |
-          echo $BEHAVE_OUTPUT
 
 
       - name: Generate the HTML allure report
