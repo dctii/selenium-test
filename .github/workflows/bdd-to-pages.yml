@@ -59,8 +59,9 @@ jobs:
             --include simple 2>&1)
         continue-on-error: true
 
-      - name: Create annotation for BDD test
+      - name: Echo BEHAVE OUTPUT
         run: |
+          echo $BEHAVE_OUTPUT
           if [ $? -eq 0 ]; then
             echo "::notice::${BEHAVE_OUTPUT}"
           else
