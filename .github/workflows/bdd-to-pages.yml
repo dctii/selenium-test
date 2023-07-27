@@ -66,7 +66,8 @@ jobs:
       - name: Kill allure server
         run: |
           ps aux | grep 'http.server' \
-          && kill -9 $(ps aux | grep 'http.server 8080' | awk '{print $2}')
+          && pkill -f 'python3 -m http.server 8080 --directory ./allure-report' \
+          && ps aux | grep 'http.server'
 
         
 
