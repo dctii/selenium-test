@@ -56,14 +56,20 @@ jobs:
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
             --outfile $TEST_RESULTS_DIR \
-            --include simple 2>&1) || behave_exit_code=$?
-          important_line=$(echo "$output" | grep -o '[0-9]* feature\(s\)\? passed.*')
-          if [ "$behave_exit_code" -eq 1 ]; then
-            echo "::error::${important_line}"
+            --include simple 2>&1) || BEHAVE_EXIT_CODE=$?
+          IMPORTANT_LINE=$(echo "$output" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
+          if [ "$GREP_EXIT_CODE" -eq 1 ]; then
+            echo "::error::ERROR with Exit Code ${BEHAVE_EXIT_CODE}"
           else
-            echo "::notice::${important_line}"
+            if [[ "$IMPORTANT_LINE" =~ "0 features passed" ]]; then
+              echo "::warning::${IMPORTANT_LINE}"
+            else
+              echo "::notice::${IMPORTANT_LINE}"
+            fi
           fi
         continue-on-error: true
+
+
 
 
 
