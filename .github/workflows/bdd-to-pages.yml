@@ -74,53 +74,53 @@ jobs:
 
 
 
-      - name: Generate the HTML allure report
-        run: |
-          source .venv/bin/activate \
-          && allure generate "./$TEST_RESULTS_DIR" \
-            -o "./$ALLURE_REPORT_DIR" \
-            --clean
+#      - name: Generate the HTML allure report
+#        run: |
+#          source .venv/bin/activate \
+#          && allure generate "./$TEST_RESULTS_DIR" \
+#            -o "./$ALLURE_REPORT_DIR" \
+#            --clean
+#
+#      - name: Upload allure report as artifact
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: allure-report
+#          path: ./allure-report/*
 
-      - name: Upload allure report as artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-report
-          path: ./allure-report/*
-
-  deploy:
-    needs: bdd-test
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Download allure report
-        uses: actions/download-artifact@v3
-        with:
-          name: allure-report
-          path: './allure-report'
-
-      - name: Preview contents
-        run: ls -a
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: './allure-report'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-
-      - name: Delete allure-report artifact
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: allure-report
-          failOnError: true
-          
+#  deploy:
+#    needs: bdd-test
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deployment.outputs.page_url }}
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Download allure report
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: allure-report
+#          path: './allure-report'
+#
+#      - name: Preview contents
+#        run: ls -a
+#
+#      - name: Setup Pages
+#        uses: actions/configure-pages@v3
+#
+#      - name: Upload artifact
+#        uses: actions/upload-pages-artifact@v2
+#        with:
+#          path: './allure-report'
+#
+#      - name: Deploy to GitHub Pages
+#        id: deployment
+#        uses: actions/deploy-pages@v2
+#
+#      - name: Delete allure-report artifact
+#        uses: geekyeggo/delete-artifact@v2
+#        with:
+#          name: allure-report
+#          failOnError: true
+#
