@@ -23,6 +23,7 @@ jobs:
 
       - name: Run simple BDD test
         run: |
+          source .venv/bin/activate
           behave \
             --verbose \
             --tags=@simple \
@@ -33,6 +34,7 @@ jobs:
 
       - name: Generate and server allure report
         run: |
+          source .venv/bin/activate
           echo pwd
           PROJECT_DIR="$(echo pwd)"
           TEST_RESULTS_DIR="./allure-results"
