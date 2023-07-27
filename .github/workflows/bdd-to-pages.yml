@@ -50,19 +50,21 @@ jobs:
       - name: Run simple BDD test
         run: |
           source .venv/bin/activate
-          behave_output=$(behave \
+          output=$(behave \
             --verbose \
             --tags=@simple \
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || behave_exit_code=$?
+          important_line=$(echo "$output" | grep -o '0 features passed.*')
           if [ "$behave_exit_code" -eq 0 ]; then
-            echo "::notice::${behave_output}"
+            echo "::notice::${important_line}"
           else
-            echo "::error::${behave_output}"
+            echo "::error::${important_line}"
           fi
         continue-on-error: true
+
 
 
 
