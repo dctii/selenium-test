@@ -57,7 +57,7 @@ jobs:
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || behave_exit_code=$?
-          important_line=$(echo "$output" | grep -o '0 features passed.*')
+          important_line=$(echo "$output" | grep -o '[0-9]* features passed.*')
           if [ "$behave_exit_code" -eq 0 ]; then
             echo "::notice::${important_line}"
           else
