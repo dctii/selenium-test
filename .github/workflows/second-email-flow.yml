@@ -1,0 +1,112 @@
+name: Allure Report on GitHub Pages
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  bdd-test:
+    runs-on: ubuntu-latest
+    env:
+      TEST_RESULTS_DIR: allure-results
+      ALLURE_REPORT_DIR: allure-report
+
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Allure
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz
+          tar -zxvf allure-2.23.1.tgz
+          sudo mv allure-2.23.1 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+      - name: Check if Allure is installed
+        run: allure --version
+
+      - name: Install dependencies
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip3 install --upgrade pip setuptools wheel
+          pip3 install -r requirements.txt
+
+      - name: Run simple BDD test
+        run: |
+          source .venv/bin/activate
+          BEHAVE_OUTPUT=$(behave \
+            --verbose \
+            --tags=@simple \
+            --format=allure_behave.formatter:AllureFormatter \
+            --summary \
+            --outfile $TEST_RESULTS_DIR \
+            --include simple 2>&1) || BEHAVE_EXIT_CODE=$?
+          IMPORTANT_LINE=$(echo "$BEHAVE_OUTPUT" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
+          if [ "$GREP_EXIT_CODE" -eq 1 ]; then
+            printf "%s\n" "$BEHAVE_OUTPUT"
+            echo "::error::Process ended with exit code ${BEHAVE_EXIT_CODE}"
+          else
+            if [[ "$IMPORTANT_LINE" =~ "0 features passed" ]]; then
+              printf "%s\n" "$BEHAVE_OUTPUT"
+              echo "::warning::${IMPORTANT_LINE}"
+            else
+              printf "%s\n" "$BEHAVE_OUTPUT"
+              echo "::notice::${IMPORTANT_LINE}"
+            fi
+          fi
+          echo "BDD_STDOUT=$(printf '%s\n' "$BEHAVE_OUTPUT")" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Generate the HTML allure report
+        run: |
+          source .venv/bin/activate \
+          && allure generate "./$TEST_RESULTS_DIR" \
+            -o "./$ALLURE_REPORT_DIR" \
+            --clean
+
+      - name: Unify report files into a single HTML
+        run: |
+          source .venv/bin/activate
+          COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py)
+          printf "%s\n" "$COMBINED_REPORT_OUTPUT"
+      
+
+      - name: Upload allure report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ALLURE_REPORT_DIR }}
+          path: ./${{ env.ALLURE_REPORT_DIR }}/*
+
+      - name: Upload allure unified report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: single-html-${{ env.ALLURE_REPORT_DIR }}
+          path: ./${{ env.ALLURE_REPORT_DIR}}/single-page/*.html
+
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.MAIL_SERVER }}
+          server_port: ${{ secrets.MAIL_PORT }}
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions Workflow Started + Attachment
+          to: ${{ env.EMAIL_TO }}
+          from: ${{ env.EMAIL_FROM }}
+          body: ${{ env.EMAIL_BODY }}
+          attachments: ${{ env.EMAIL_ATTACHMENTS }}
+          ignore_cert: true
+          priority: normal
+        env:
+          EMAIL_SUBJECT: "Github Actions Workflow Started + Attachment"
+          EMAIL_FROM: "Dana Tolman"
+          EMAIL_BODY: ${{ env.BDD_STDOUT }}
+          EMAIL_TO: "danatolman@icloud.com"
+          EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html
