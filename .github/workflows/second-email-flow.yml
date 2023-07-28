@@ -67,7 +67,7 @@ jobs:
       - name: Create HTML file with STDOUT
         run: |
           if [ "${{ env.BDD_PASS_STATUS }}" -eq 1 ]; then
-            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT FAIL</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
+            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Behave</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
           else
             echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT PASS</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
           fi
@@ -106,15 +106,16 @@ jobs:
           secure: true
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: Github Actions Workflow Started + Attachment
+          subject: ${{ env.EMAIL_SUBJECT }}
           to: ${{ env.EMAIL_TO }}
           from: ${{ env.EMAIL_FROM }}
-          html_body: file://allure-stdout.html
+          html_body: ${{ env.EMAIL_HTML_BODY }}
           attachments: ${{ env.EMAIL_ATTACHMENTS }}
           ignore_cert: true
           priority: normal
         env:
-          EMAIL_SUBJECT: "Github Actions Workflow Started + Attachment"
+          EMAIL_SUBJECT: "BDD Results "
           EMAIL_FROM: "Dana Tolman"
           EMAIL_TO: "danatolman@icloud.com"
+          EMAIL_HTML_BODY: file://allure-stdout.html
           EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html
