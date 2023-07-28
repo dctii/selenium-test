@@ -66,7 +66,7 @@ jobs:
 
       - name: Create HTML file with STDOUT
         run: |
-          echo "<html><head><style>pre{border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;border:1px solid #BCBEC0;background:#F1F3F5;font:12px Monaco,Consolas,'Andale Mono','DejaVu Sans Mono',monospace}code{border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;border:1px solid #BCBEC0;padding:2px;font:12px Monaco,Consolas,'Andale Mono','DejaVu Sans Mono',monospace}pre code{border-radius:0px;-moz-border-radius:0px;-webkit-border-radius:0px;border:0px;padding:2px;font:12px Monaco,Consolas,'Andale Mono','DejaVu Sans Mono',monospace}</style></head><body><h1>Allure Report STDOUT</h1><pre>$(cat allure-stdout.txt)</pre></body></html>" > allure-stdout.html
+          echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#F1F3F5;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT</h1><pre>$(cat allure-stdout.txt)</pre></body></html>" > allure-stdout.html
       
 
       - name: Generate the HTML allure report
