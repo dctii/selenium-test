@@ -10,7 +10,7 @@
                 font-family: "Avenir Book", Arial, Helvetica, sans-serif;
             }
             p,
-            ul {
+            ul, table {
                 font:
                     12px Helvetica,
                     Arial,
@@ -23,6 +23,13 @@
             code,
             pre code {
                 padding: 2px;
+            }
+            td:nth-child(1) {
+                font-style: italic;
+                text-align: right;
+            }
+            td:nth-child(2) {
+                padding-left: 10px;
             }
         </style>
     </head>
@@ -39,15 +46,15 @@
                 <td> {{{ email.CURR_TIME }}}</td>
             </tr>
             <tr>
-                <td>GitHub Repository:</td>
+                <td>Repository:</td>
                 <td> {{{ email.GH_REPO }}}</td>
 
             <tr>
-                <td>GitHub Action ID:</td>
+                <td>Action ID:</td>
                 <td> {{{ email.GH_ACTION_ID }}}</td>
             </tr>
             <tr>
-                <td>GitHub Action Workflow ID:</td>
+                <td>Workflow ID:</td>
                 <td> {{{ email.GH_WORKFLOW_ID }}}</td>
             </tr>
             </tbody>
