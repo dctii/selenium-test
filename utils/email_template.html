@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{{ email.BODY_TITLE }}}</title>
+        <style>
+            h2 {
+                font-family: "Avenir Book", Arial, Helvetica, sans-serif;
+            }
+            p,
+            ul {
+                font:
+                    12px Helvetica,
+                    Arial,
+                    sans-serif;
+            }
+            pre {
+                padding: 10px;
+                background: #eff1f3;
+            }
+            code,
+            pre code {
+                padding: 2px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>{{{ email.BODY_TITLE }}}</h2>
+        <pre><code>{{{ email.BDD_STDOUT }}}</code></pre>
+
+        <p>
+            To download the report, please go to the workflow and download the workflow
+            artifact "<em>{{{ email.REPORT_ARTIFACT_NAME }}}</em>" as a zip file. You will find
+            a single HTML file which you should open in your browser to view the report.
+        </p>
+        <ul>
+            <li>
+                GitHub Workflow:
+                <a href="{{{ email.WORKFLOW_URL }}}"
+                    >{{{ email.WORKFLOW_URL }}}</a
+                >
+            </li>
+        </ul>
+    </body>
+</html>

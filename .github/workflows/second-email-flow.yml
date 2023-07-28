@@ -8,8 +8,12 @@ jobs:
   bdd-test:
     runs-on: ubuntu-latest
     env:
+      REPO_URL: https://github.com/${{ github.repository }}
+      WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       TEST_RESULTS_DIR: allure-results
       ALLURE_REPORT_DIR: allure-report
+      REPORT_ARTIFACT_NAME: single-html-${{ env.ALLURE_REPORT_DIR }}
+      BODY_TITLE: BDD Test Results
 
     steps:
       - name: Get code
@@ -63,14 +67,7 @@ jobs:
           echo "BDD_PASS_STATUS=${GREP_EXIT_CODE}" >> $GITHUB_ENV
         continue-on-error: true
 
-      # TODO: Create an HTML template where the STDOUT will be replaced with an internal var. Provide a link to the repository and/or workflow so they can go and download the report file.
-      - name: Create HTML file with STDOUT
-        run: |
-          if [ "${{ env.BDD_PASS_STATUS }}" -eq 1 ]; then
-            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Behave</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
-          else
-            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT PASS</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
-          fi
+
 
       - name: Generate the HTML allure report
         run: |
@@ -84,7 +81,7 @@ jobs:
           source .venv/bin/activate
           COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py)
           printf "%s\n" "$COMBINED_REPORT_OUTPUT"
-      
+          
 
       - name: Upload allure report as artifact
         uses: actions/upload-artifact@v3
@@ -95,8 +92,19 @@ jobs:
       - name: Upload allure unified report as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: single-html-${{ env.ALLURE_REPORT_DIR }}
+          name: ${{ env.REPORT_ARTIFACT_NAME }}
           path: ./${{ env.ALLURE_REPORT_DIR}}/single-page/*.html
+
+      - name: Render Email Notification
+        run: |
+          if [ "${{ env.BDD_PASS_STATUS }}" -eq 1 ]; then
+            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Behave</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
+          else
+            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT PASS</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
+          fi
+      
+
+
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
@@ -117,5 +125,5 @@ jobs:
           EMAIL_SUBJECT: "BDD Results "
           EMAIL_FROM: "Dana Tolman"
           EMAIL_TO: "danatolman@icloud.com"
-          EMAIL_HTML_BODY: file://allure-stdout.html
+          EMAIL_HTML_BODY: file://utils/email.html
           EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html

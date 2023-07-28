@@ -17,9 +17,9 @@ combine_allure(
     ignore_utf8_errors=False,
 )
 
-now_utc = datetime.now(timezone('UTC'))
-now_pdt = now_utc.astimezone(timezone('US/Pacific'))
-curr_time_pdt = now_pdt.strftime('%Y-%m-%d_%Hh-%Mm')
+now_utc = datetime.now(timezone("UTC"))
+now_pdt = now_utc.astimezone(timezone("US/Pacific"))
+curr_time_pdt = now_pdt.strftime("%Y-%m-%d_%Hh-%Mm")
 
 # Rename the generated index.html to single-page.html
 new_dirname = "single-page"
