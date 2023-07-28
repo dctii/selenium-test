@@ -40,33 +40,35 @@ jobs:
       - name: Run simple BDD test
         run: |
           source .venv/bin/activate
-          BEHAVE_OUTPUT=$(behave \
+          mapfile -t BEHAVE_OUTPUT < <(behave \
             --verbose \
             --tags=@simple \
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || BEHAVE_EXIT_CODE=$?
-          IMPORTANT_LINE=$(echo "$BEHAVE_OUTPUT" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
+          IMPORTANT_LINE=$(echo "${BEHAVE_OUTPUT[*]}" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
           if [ "$GREP_EXIT_CODE" -eq 1 ]; then
-            printf "%s\n" "$BEHAVE_OUTPUT"
+            printf "%s\n" "${BEHAVE_OUTPUT[@]}"
             echo "::error::Process ended with exit code ${BEHAVE_EXIT_CODE}"
           else
             if [[ "$IMPORTANT_LINE" =~ "0 features passed" ]]; then
-              printf "%s\n" "$BEHAVE_OUTPUT"
+              printf "%s\n" "${BEHAVE_OUTPUT[@]}"
               echo "::warning::${IMPORTANT_LINE}"
             else
-              printf "%s\n" "$BEHAVE_OUTPUT"
+              printf "%s\n" "${BEHAVE_OUTPUT[@]}"
               echo "::notice::${IMPORTANT_LINE}"
             fi
           fi
-          echo "BDD_STDOUT=$(printf '%s\n' "$BEHAVE_OUTPUT")" >> $GITHUB_ENV
+          printf "%s\n" "${BEHAVE_OUTPUT[@]}" > allure-stdout.txt
+          echo "BDD_STDOUT=allure-stdout.txt" >> $GITHUB_ENV
         continue-on-error: true
+
 
       - name: Create HTML file with STDOUT
         run: |
-          echo -e "<html>\n<body>\n<h1>Allure Report STDOUT</h1>\n<pre>\n${BDD_STDOUT}\n</pre>\n</body>\n</html>" > allure-stdout.html
-
+          echo -e "<html>\n<body>\n<h1>Allure Report STDOUT</h1>\n<pre>\n$(cat allure-stdout.txt)\n</pre>\n</body>\n</html>" > allure-stdout.html
+      
 
       - name: Generate the HTML allure report
         run: |
