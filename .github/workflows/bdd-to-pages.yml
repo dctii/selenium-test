@@ -96,7 +96,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: single-html-${{ env.ALLURE_REPORT_DIR }}
-          path: ./${{ env.ALLURE_REPORT }}/single-page/*.html
+          path: ./${{ env.ALLURE_REPORT_DIR}}/single-page/*.html
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
