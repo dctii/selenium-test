@@ -47,27 +47,30 @@ jobs:
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || BEHAVE_EXIT_CODE=$?
           IMPORTANT_LINE=$(echo "${BEHAVE_OUTPUT[*]}" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
+          printf "%s\n" "${BEHAVE_OUTPUT[@]}"
           if [ "$GREP_EXIT_CODE" -eq 1 ]; then
-            printf "%s\n" "${BEHAVE_OUTPUT[@]}"
             echo "::error::Process ended with exit code ${BEHAVE_EXIT_CODE}"
           else
+            GREP_EXIT_CODE=0
             if [[ "$IMPORTANT_LINE" =~ "0 features passed" ]]; then
-              printf "%s\n" "${BEHAVE_OUTPUT[@]}"
               echo "::warning::${IMPORTANT_LINE}"
             else
-              printf "%s\n" "${BEHAVE_OUTPUT[@]}"
               echo "::notice::${IMPORTANT_LINE}"
             fi
           fi
           printf "%s\n" "${BEHAVE_OUTPUT[@]}" > allure-stdout.txt
           echo "BDD_STDOUT=allure-stdout.txt" >> $GITHUB_ENV
+          echo "BDD_PASS_STATUS=$GREP_EXIT_CODE" >> $GITHUB_ENV
         continue-on-error: true
 
 
       - name: Create HTML file with STDOUT
         run: |
-          echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#F1F3F5;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT</h1><pre>$(cat allure-stdout.txt)</pre></body></html>" > allure-stdout.html
-      
+          if [ "$GREP_EXIT_CODE" -eq 1 ]; then
+            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#F1F3F5;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT PASS</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
+          else
+            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#F1F3F5;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT FAIL</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
+          fi
 
       - name: Generate the HTML allure report
         run: |
