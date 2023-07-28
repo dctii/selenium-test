@@ -28,11 +28,35 @@
     </head>
     <body>
         <h2>{{{ email.BODY_TITLE }}}</h2>
+        <table>
+            <tbody>
+            <tr>
+                <td>Date:</td>
+                <td> {{{ email.CURR_DATE }}}</td>
+            </tr>
+            <tr>
+                <td>Time:</td>
+                <td> {{{ email.CURR_TIME }}}</td>
+            </tr>
+            <tr>
+                <td>GitHub Repository:</td>
+                <td> {{{ email.GH_REPO }}}</td>
+
+            <tr>
+                <td>GitHub Action ID:</td>
+                <td> {{{ email.GH_ACTION_ID }}}</td>
+            </tr>
+            <tr>
+                <td>GitHub Action Workflow ID:</td>
+                <td> {{{ email.GH_WORKFLOW_ID }}}</td>
+            </tr>
+            </tbody>
+        </table>
         <pre><code>{{{ email.BDD_STDOUT }}}</code></pre>
 
         <p>
             To download the report, please go to the workflow and download the workflow
-            artifact "<strong>{{{ email.REPORT_ARTIFACT_NAME }}}</strong>" as a zip file. You will find
+            artifact <strong>{{{ email.REPORT_ARTIFACT_NAME }}}</strong> as a zip file. You will find
             a single HTML file which you should open in your browser to view the report.
         </p>
         <ul>

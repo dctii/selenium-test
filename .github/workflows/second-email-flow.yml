@@ -8,8 +8,6 @@ jobs:
   bdd-test:
     runs-on: ubuntu-latest
     env:
-      REPO_URL: https://github.com/${{ github.repository }}
-      WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       TEST_RESULTS_DIR: allure-results
       ALLURE_REPORT_DIR: allure-report
 
@@ -104,6 +102,12 @@ jobs:
           && echo "Email HTML Body rendered successfully"
         env:
           EMAIL_HTML_BODY_TITLE: BDD Test Results
+          GH_REPO_NAME: ${{ github.repository }}
+          GH_ACTION_ID: ${{ github.action }}
+          GH_WORKFLOW_ID: ${{ github.run_id }}
+          GH_WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+
       
 
 

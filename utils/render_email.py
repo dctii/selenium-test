@@ -1,5 +1,7 @@
 import os
 import argparse
+import datetime
+import pytz
 
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -14,8 +16,18 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+now = datetime.datetime.now(tz=pytz.utc)
+now_pdt = now.astimezone(pytz.timezone("US/Pacific"))
+curr_date = now_pdt.strftime("%A, %B %d %Y")
+curr_time = now_pdt.strftime("%I:%M %p PDT")
+
 replacements = {
     "{{{ email.BODY_TITLE }}}": os.environ["EMAIL_HTML_BODY_TITLE"],
+    "{{{ email.CURR_DATE }}}": curr_date,
+    "{{{ email.CURR_TIME }}}": curr_time,
+    "{{{ email.GH_REPO_NAME }}}": os.environ["GH_REPO_NAME"],
+    "{{{ email.GH_ACTION_ID }}}": os.environ["GH_ACTION_ID"],
+    "{{{ email.GH_WORKFLOW_ID }}}": os.environ["GH_WORKFLOW_ID"],
     "{{{ email.WORKFLOW_URL }}}": os.environ["WORKFLOW_URL"],
     "{{{ email.REPORT_ARTIFACT_NAME }}}": os.environ["REPORT_ARTIFACT_NAME"],
     "{{{ email.BDD_STDOUT }}}": open(os.environ["BDD_STDOUT"], "r").read(),
