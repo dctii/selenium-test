@@ -1,3 +1,4 @@
+.venv/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -154,20 +155,3 @@ cython_debug/
 
 # macOS Files
 .DS_STORE
-
-# allure
-allure-results/
-allure-reports/
-allure-report/
-my_allure/
-
-# prettier
-.prettierignore
-.prettierrc
-
-
-# Other
-.NOTES
-.NOTES*
-pyproject.toml
-nohup.out

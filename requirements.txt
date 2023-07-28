@@ -54,3 +54,4 @@ urllib3-secure-extra==0.1.0
 webdriver-manager==3.9.1
 wsproto==1.2.0
 zipp==3.16.2
+allure-combine==1.0.11
