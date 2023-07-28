@@ -12,7 +12,7 @@ jobs:
       WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       TEST_RESULTS_DIR: allure-results
       ALLURE_REPORT_DIR: allure-report
-      REPORT_ARTIFACT_NAME: single-html-${{ env.ALLURE_REPORT_DIR }}
+      REPORT_ARTIFACT_NAME: single-html-allure-report
       BODY_TITLE: BDD Test Results
 
     steps:
