@@ -84,6 +84,8 @@ jobs:
           COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py)
           printf "%s\n" "$COMBINED_REPORT_OUTPUT"
           
+          echo "REPORT_ARTIFACT_NAME=single-html-allure-report" >> $GITHUB_ENV
+          
 
       - name: Upload allure report as artifact
         uses: actions/upload-artifact@v3
@@ -96,8 +98,6 @@ jobs:
         with:
           name: ${{ env.REPORT_ARTIFACT_NAME }}
           path: ./${{ env.ALLURE_REPORT_DIR}}/single-page/*.
-        env:
-          REPORT_ARTIFACT_NAME: single-html-allure-report
 
       - name: Render Email Notification
         run: |
