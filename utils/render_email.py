@@ -15,7 +15,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 replacements = {
-    "{{{ email.BODY_TITLE }}}": os.environ["BODY_TITLE"],
+    "{{{ email.BODY_TITLE }}}": os.environ["EMAIL_HTML_BODY_TITLE"],
     "{{{ email.WORKFLOW_URL }}}": os.environ["WORKFLOW_URL"],
     "{{{ email.REPORT_ARTIFACT_NAME }}}": os.environ["REPORT_ARTIFACT_NAME"],
     "{{{ email.BDD_STDOUT }}}": open(os.environ["BDD_STDOUT"], "r").read(),

@@ -12,8 +12,6 @@ jobs:
       WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       TEST_RESULTS_DIR: allure-results
       ALLURE_REPORT_DIR: allure-report
-      REPORT_ARTIFACT_NAME: single-html-allure-report
-      BODY_TITLE: BDD Test Results
 
     steps:
       - name: Get code
@@ -51,7 +49,9 @@ jobs:
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || BEHAVE_EXIT_CODE=$?
           IMPORTANT_LINE=$(echo "${BEHAVE_OUTPUT[*]}" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
+          
           printf "%s\n" "${BEHAVE_OUTPUT[@]}"
+          
           if [ "$GREP_EXIT_CODE" -eq 1 ]; then
             echo "::error::Process ended with exit code ${BEHAVE_EXIT_CODE}"
           else
@@ -62,8 +62,10 @@ jobs:
               echo "::notice::${IMPORTANT_LINE}"
             fi
           fi
+          
           printf "%s\n" "${BEHAVE_OUTPUT[@]}" > allure-stdout.txt
-          echo "BDD_STDOUT=allure-stdout.txt" >> $GITHUB_ENV
+          
+          echo "BDD_STDOUT=behave-stdout.txt" >> $GITHUB_ENV
           echo "BDD_PASS_STATUS=${GREP_EXIT_CODE}" >> $GITHUB_ENV
         continue-on-error: true
 
@@ -93,19 +95,16 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.REPORT_ARTIFACT_NAME }}
-          path: ./${{ env.ALLURE_REPORT_DIR}}/single-page/*.html
+          path: ./${{ env.ALLURE_REPORT_DIR}}/single-page/*.
+        env:
+          REPORT_ARTIFACT_NAME: single-html-allure-report
 
       - name: Render Email Notification
         run: |
-          python3 ./utils/render_email.py ./utils/email.html && echo "📧 ✅ Email HTML Body rendered successfully"
-
-#      - name: Render Email Notification
-#        run: |
-#          if [ "${{ env.BDD_PASS_STATUS }}" -eq 1 ]; then
-#            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Behave</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
-#          else
-#            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT PASS</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
-#          fi
+          python3 ./utils/render_email.py ./utils/email.html \
+          && echo "Email HTML Body rendered successfully"
+        env:
+          EMAIL_HTML_BODY_TITLE: BDD Results
       
 
 
@@ -126,7 +125,7 @@ jobs:
           ignore_cert: true
           priority: normal
         env:
-          EMAIL_SUBJECT: "BDD Results "
+          EMAIL_SUBJECT: "BDD Results"
           EMAIL_FROM: "Dana Tolman"
           EMAIL_TO: "danatolman@icloud.com"
           EMAIL_HTML_BODY: file://utils/email.html
