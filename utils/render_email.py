@@ -28,7 +28,7 @@ replacements = {
     "{{{ email.GH_REPO_NAME }}}": os.environ["GH_REPO_NAME"],
     "{{{ email.GH_ACTION_ID }}}": os.environ["GH_ACTION_ID"],
     "{{{ email.GH_WORKFLOW_ID }}}": os.environ["GH_WORKFLOW_ID"],
-    "{{{ email.GH_WORKFLOW_URL }}}": os.environ["WORKFLOW_URL"],
+    "{{{ email.GH_WORKFLOW_URL }}}": os.environ["GH_WORKFLOW_URL"],
     "{{{ email.REPORT_ARTIFACT_NAME }}}": os.environ["REPORT_ARTIFACT_NAME"],
     "{{{ email.BDD_STDOUT }}}": open(os.environ["BDD_STDOUT"], "r").read(),
 }
