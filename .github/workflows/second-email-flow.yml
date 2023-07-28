@@ -63,10 +63,10 @@ jobs:
           echo "BDD_PASS_STATUS=$GREP_EXIT_CODE" >> $GITHUB_ENV
         continue-on-error: true
 
-
+      # TODO: Create an HTML template where the STDOUT will be replaced with an internal var
       - name: Create HTML file with STDOUT
         run: |
-          if [ "$GREP_EXIT_CODE" -eq 1 ]; then
+          if [ "${{ env.BDD_PASS_STATUS }}" -eq 1 ]; then
             echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#F1F3F5;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT PASS</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
           else
             echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#F1F3F5;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT FAIL</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
