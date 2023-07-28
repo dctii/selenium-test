@@ -84,7 +84,7 @@ jobs:
           source .venv/bin/activate
           export TZ="America/Los_Angeles"
           CURR_TIME=$(date +"%Y-%m-%d-%Hh-%Mm")
-          COMBINE_OUTPUT=$(python3 ./utils/unify_allure_files.py)
+          COMBINE_OUTPUT=$(python3 ./utils/combine_allure.py)
           COMBINED_PATH=$(echo "COMBINE_OUTPUT" | grep -o '/[^ ]*\.html$')
           NEW_FILENAME="./${{ env.ALLURE_REPORT_DIR }}/single-page/${CURR_TIME}-allure-report.html"
           mv ${COMBINED_PATH} ${NEW_FILENAME}
