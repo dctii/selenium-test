@@ -49,9 +49,7 @@ jobs:
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || BEHAVE_EXIT_CODE=$?
           IMPORTANT_LINE=$(echo "${BEHAVE_OUTPUT[*]}" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
-          
           printf "%s\n" "${BEHAVE_OUTPUT[@]}"
-          
           if [ "$GREP_EXIT_CODE" -eq 1 ]; then
             echo "::error::Process ended with exit code ${BEHAVE_EXIT_CODE}"
           else
@@ -62,9 +60,7 @@ jobs:
               echo "::notice::${IMPORTANT_LINE}"
             fi
           fi
-          
           printf "%s\n" "${BEHAVE_OUTPUT[@]}" > allure-stdout.txt
-          
           echo "BDD_STDOUT=behave-stdout.txt" >> $GITHUB_ENV
           echo "BDD_PASS_STATUS=${GREP_EXIT_CODE}" >> $GITHUB_ENV
         continue-on-error: true
@@ -83,7 +79,6 @@ jobs:
           source .venv/bin/activate
           COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py)
           printf "%s\n" "$COMBINED_REPORT_OUTPUT"
-          
           echo "REPORT_ARTIFACT_NAME=single-html-allure-report" >> $GITHUB_ENV
           
 
@@ -105,9 +100,6 @@ jobs:
           && echo "Email HTML Body rendered successfully"
         env:
           EMAIL_HTML_BODY_TITLE: BDD Results
-      
-
-
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
