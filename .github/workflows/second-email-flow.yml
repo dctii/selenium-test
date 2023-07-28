@@ -1,4 +1,4 @@
-name: Allure Report on GitHub Pages
+name: Email two
 on:
   push:
     branches: ["main"]
@@ -63,6 +63,11 @@ jobs:
           echo "BDD_STDOUT=$(printf '%s\n' "$BEHAVE_OUTPUT")" >> $GITHUB_ENV
         continue-on-error: true
 
+      - name: Create HTML file with STDOUT
+        run: |
+          echo -e "<html>\n<body>\n<h1>Allure Report STDOUT</h1>\n<pre>\n${BDD_STDOUT}\n</pre>\n</body>\n</html>" > allure-stdout.html
+
+
       - name: Generate the HTML allure report
         run: |
           source .venv/bin/activate \
@@ -100,13 +105,12 @@ jobs:
           subject: Github Actions Workflow Started + Attachment
           to: ${{ env.EMAIL_TO }}
           from: ${{ env.EMAIL_FROM }}
-          body: ${{ env.EMAIL_BODY }}
+          html_body: file://allure-stdout.html
           attachments: ${{ env.EMAIL_ATTACHMENTS }}
           ignore_cert: true
           priority: normal
         env:
           EMAIL_SUBJECT: "Github Actions Workflow Started + Attachment"
           EMAIL_FROM: "Dana Tolman"
-          EMAIL_BODY: ${{ env.BDD_STDOUT }}
           EMAIL_TO: "danatolman@icloud.com"
           EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html
