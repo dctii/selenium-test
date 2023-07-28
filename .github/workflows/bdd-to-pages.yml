@@ -84,7 +84,7 @@ jobs:
           source .venv/bin/activate
           COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py)
           COMBINED_REPORT_PATH=$(echo "$COMBINED_REPORT_OUTPUT" | grep -o '/[^ ]*\.html$')
-          echo "COMBINED_REPORT=${COMBINED_REPORT_PATH}" >> ${GITHUB_ENV}
+          echo "COMBINED_REPORT=${COMBINED_REPORT_PATH}" >> $GITHUB_ENV
           printf "%s\n" "$COMBINED_REPORT_OUTPUT"
           echo "Allure Report Path to File: ${{ env.COMBINED_REPORT }}" 
 
