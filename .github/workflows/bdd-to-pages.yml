@@ -79,14 +79,48 @@ jobs:
             -o "./$ALLURE_REPORT_DIR" \
             --clean
 
+      - name: Unify report files into a single HTML
+        run: |
+          source .venv/bin/activate
+          COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py)
+          COMBINED_REPORT_PATH=$(echo "$COMBINED_REPORT_OUTPUT" | grep -o '/[^ ]*\.html$')
+          echo "COMBINED_REPORT=${COMBINED_REPORT_PATH}" >> ${GITHUB_ENV}
+          printf "%s\n" "$COMBINED_REPORT_OUTPUT"
+          echo "Allure Report Path to File: ${{ env.COMBINED_REPORT }}" 
+
       - name: Upload allure report as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: allure-report
-          path: ./allure-report/*
+          name: ${{ env.ALLURE_REPORT_DIR }}
+          path: ./${{ env.ALLURE_REPORT_DIR }}/*
 
-      - name: Output GitHub Context
-        run: echo "${{ toJSON(github) }}"
+      - name: Upload allure combined report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: single-file-${{ env.ALLURE_REPORT_DIR }}
+          path: ${{ env.COMBINED_REPORT }}
+
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{secrets.MAIL_SERVER}}
+          server_port: ${{secrets.MAIL_PORT}}
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions Workflow Started + Attachment
+          to: ${{ env.EMAIL_TO }}
+          from: ${{ env.EMAIL_FROM }}
+          body: ${{ env.EMAIL_BODY }}
+          attachments: ${{ env.EMAIL_ATTACHMENTS }}
+          ignore_cert: true
+          priority: normal
+        env:
+          EMAIL_SUBJECT: "Github Actions Workflow Started + Attachment"
+          EMAIL_FROM: "Dana Tolman"
+          EMAIL_BODY: "Build job of ${{github.repository}} initiated."
+          EMAIL_TO: "danatolman@icloud.com"
+          EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html
 
   deploy:
     needs: bdd-test
