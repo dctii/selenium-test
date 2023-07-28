@@ -85,6 +85,9 @@ jobs:
           name: allure-report
           path: ./allure-report/*
 
+      - name: Output GitHub Context
+        run: echo "${{ toJSON(github) }}"
+
   deploy:
     needs: bdd-test
     environment:
