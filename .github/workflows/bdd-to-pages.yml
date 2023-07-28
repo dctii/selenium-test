@@ -79,20 +79,11 @@ jobs:
             -o "./$ALLURE_REPORT_DIR" \
             --clean
 
-      - name: Combine report files into a single HTML
+      - name: Unify report files into a single HTML
         run: |
           source .venv/bin/activate
-          export TZ="America/Los_Angeles"
-          CURR_TIME=$(date +"%Y-%m-%d-%Hh-%Mm")
-          COMBINE_OUTPUT=$(python3 ./utils/combine_allure.py)
-          COMBINED_PATH=$(echo "COMBINE_OUTPUT" | grep -o '/[^ ]*\.html$')
-          NEW_FILENAME="./${{ env.ALLURE_REPORT_DIR }}/single-page/${CURR_TIME}-allure-report.html"
-          mv ${COMBINED_PATH} ${NEW_FILENAME}
-          printf "%s\n" "COMBINE_OUTPUT"
-#          echo "ALLURE_REPORT=${NEW_FILENAME}" >> ${GITHUB_ENV}
-#          echo "ALLURE_REPORT_FILENAME=${CURR_TIME}-allure-report.html" >> ${GITHUB_ENV}
-
-#          echo "Allure Report Path to File: ${{ env.ALLURE_REPORT }}"
+          COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py)
+          printf "%s\n" "$COMBINED_REPORT_OUTPUT"
       
 
       - name: Upload allure report as artifact
@@ -105,7 +96,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: single-html-${{ env.ALLURE_REPORT_DIR }}
-          path: ./${{ env.ALLURE_REPORT_DIR }}/single-page/*
+          path: ${{ env.ALLURE_REPORT }}
 
       - name: Send mail
         uses: dawidd6/action-send-mail@v3
