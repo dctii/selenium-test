@@ -89,7 +89,7 @@ jobs:
       - name: Upload allure report as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.ALLURE_REPORT_DIR }}-folder
+          name: ${{ env.ALLURE_REPORT_DIR }}
           path: ./${{ env.ALLURE_REPORT_DIR }}/*
 
       - name: Upload allure unified report as artifact
@@ -133,8 +133,8 @@ jobs:
       - name: Download allure report
         uses: actions/download-artifact@v3
         with:
-          name: allure-report
-          path: './allure-report'
+          name: ${{ env.ALLURE_REPORT_DIR }}
+          path: './${{ env.ALLURE_REPORT_DIR }}'
 
       - name: Preview contents
         run: ls -a
@@ -145,7 +145,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: './allure-report'
+          path: './${{ env.ALLURE_REPORT_DIR }}'
 
       - name: Deploy to GitHub Pages
         id: deployment
@@ -154,6 +154,6 @@ jobs:
       - name: Delete allure-report artifact
         uses: geekyeggo/delete-artifact@v2
         with:
-          name: allure-report
+          name: ${{ env.ALLURE_REPORT_DIR }}
           failOnError: true
 
