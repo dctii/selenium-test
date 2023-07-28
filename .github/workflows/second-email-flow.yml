@@ -97,11 +97,15 @@ jobs:
 
       - name: Render Email Notification
         run: |
-          if [ "${{ env.BDD_PASS_STATUS }}" -eq 1 ]; then
-            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Behave</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
-          else
-            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT PASS</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
-          fi
+          python3 ./utils/render_email.py ./utils/email.html && echo "📧 ✅ Email HTML Body rendered successfully"
+
+#      - name: Render Email Notification
+#        run: |
+#          if [ "${{ env.BDD_PASS_STATUS }}" -eq 1 ]; then
+#            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Behave</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
+#          else
+#            echo "<html><head><style>pre{padding:10px;border:1px solid #BCBEC0;background:#DDEBE8;}code{padding:2px;}pre code{border:0px;padding:2px;}</style></head><body><h1>Allure Report STDOUT PASS</h1><pre>$(cat ${{ env.BDD_STDOUT }})</pre></body></html>" > allure-stdout.html
+#          fi
       
 
 
