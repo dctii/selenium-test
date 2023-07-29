@@ -41,6 +41,7 @@ jobs:
         run: |
           source .venv/bin/activate
           mapfile -t BEHAVE_OUTPUT < <(behave \
+            --verbose \
             --tags=@simple \
             --format=allure_behave.formatter:AllureFormatter \
             --summary \
