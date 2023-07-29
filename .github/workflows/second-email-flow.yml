@@ -104,7 +104,7 @@ jobs:
         env:
           EMAIL_HTML_BODY_TITLE: BDD Test Results
           GH_REPO_NAME: ${{ github.repository }}
-          GH_ACTION_ID: ${{ github.action_repository }}
+          GH_WORKFLOW_NAME: ${{ github.workflow }}
           GH_WORKFLOW_ID: ${{ github.run_id }}
           GH_WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
@@ -122,12 +122,12 @@ jobs:
           to: ${{ env.EMAIL_TO }}
           from: ${{ env.EMAIL_FROM }}
           html_body: ${{ env.EMAIL_HTML_BODY }}
-          attachments: ${{ env.EMAIL_ATTACHMENTS }}
           ignore_cert: true
           priority: normal
+#          attachments: ${{ env.EMAIL_ATTACHMENTS }}
         env:
           EMAIL_SUBJECT: "BDD Results"
           EMAIL_FROM: "Dana Tolman"
           EMAIL_TO: "danatolman@icloud.com"
           EMAIL_HTML_BODY: file://utils/email.html
-          EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html
+#          EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html
