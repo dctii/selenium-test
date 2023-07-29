@@ -6,14 +6,13 @@ from datetime import datetime
 from pytz import timezone
 from allure_combine import combine_allure
 
-parser = argparse.ArgumentParser(description="Name for filename terminant")
+parser = argparse.ArgumentParser(description="Name for filename terminal")
 parser.add_argument(
-    "FilenameTerminal",
-    metavar="filename_terminal",
+    "--name",
+    metavar="name",
     type=str,
     help="the part of the filename after the current time",
     default="allure-report",
-    nargs="?",
 )
 args = parser.parse_args()
 
@@ -35,7 +34,7 @@ curr_time_pdt = now_pdt.strftime("%Y-%m-%d_%Hh-%Mm")
 
 # Rename the generated 'complete.html'
 new_dirname = "single-page"
-new_filename = f"{curr_time_pdt}-{args.FilenameTerminal}.html"
+new_filename = f"{curr_time_pdt}-{args.name}.html"
 print("Renaming file...")
 old_file = os.path.join(allure_report_dir, new_dirname, "complete.html")
 new_file = os.path.join(allure_report_dir, new_dirname, new_filename)

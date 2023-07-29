@@ -80,7 +80,7 @@ jobs:
       - name: Unify report files into a single HTML
         run: |
           source .venv/bin/activate
-          COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py allure-reportarino)
+          COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py --name=allure-report)
           printf "%s\n" "$COMBINED_REPORT_OUTPUT"
           echo "REPORT_ARTIFACT_NAME=single-html-allure-report" > $GITHUB_ENV 
           
