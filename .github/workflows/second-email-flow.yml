@@ -131,3 +131,4 @@ jobs:
           EMAIL_TO: "danatolman@icloud.com"
           EMAIL_HTML_BODY: file://utils/email.html
 #          EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html
+#
