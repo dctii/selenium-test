@@ -80,7 +80,7 @@ jobs:
       - name: Unify report files into a single HTML
         run: |
           source .venv/bin/activate
-          COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py)
+          COMBINED_REPORT_OUTPUT=$(python3 ./utils/combine_allure.py allure-reportarino)
           printf "%s\n" "$COMBINED_REPORT_OUTPUT"
           echo "REPORT_ARTIFACT_NAME=single-html-allure-report" > $GITHUB_ENV 
           
@@ -125,11 +125,10 @@ jobs:
           html_body: ${{ env.EMAIL_HTML_BODY }}
           ignore_cert: true
           priority: normal
-#          attachments: ${{ env.EMAIL_ATTACHMENTS }}
+          attachments: ${{ env.EMAIL_ATTACHMENTS }}
         env:
           EMAIL_SUBJECT: "BDD Results"
           EMAIL_FROM: "Dana Tolman"
           EMAIL_TO: "danatolman@icloud.com"
           EMAIL_HTML_BODY: file://utils/email.html
-#          EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html
-#
+          EMAIL_ATTACHMENTS: ./allure-report/single-page/*-allure-report.html

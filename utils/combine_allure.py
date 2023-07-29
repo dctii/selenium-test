@@ -1,9 +1,21 @@
 # utils/combine_allure.py
 import os
+import argparse
 import shutil
 from datetime import datetime
 from pytz import timezone
 from allure_combine import combine_allure
+
+parser = argparse.ArgumentParser(description="Name for filename terminant")
+parser.add_argument(
+    "FilenameTerminal",
+    metavar="filename_terminal",
+    type=str,
+    help="the part of the filename after the current time",
+    default="allure-report",
+    nargs="?",
+)
+args = parser.parse_args()
 
 
 root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,9 +33,9 @@ now_utc = datetime.now(timezone("UTC"))
 now_pdt = now_utc.astimezone(timezone("US/Pacific"))
 curr_time_pdt = now_pdt.strftime("%Y-%m-%d_%Hh-%Mm")
 
-# Rename the generated index.html to single-page.html
+# Rename the generated 'complete.html'
 new_dirname = "single-page"
-new_filename = f"{curr_time_pdt}-allure-report.html"
+new_filename = f"{curr_time_pdt}-{args.FilenameTerminal}.html"
 print("Renaming file...")
 old_file = os.path.join(allure_report_dir, new_dirname, "complete.html")
 new_file = os.path.join(allure_report_dir, new_dirname, new_filename)

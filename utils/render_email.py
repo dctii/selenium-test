@@ -33,13 +33,6 @@ replacements = {
     "{{{ email.BDD_STDOUT }}}": open(os.environ["BDD_STDOUT"], "r").read(),
 }
 
-# replacements = {
-#     "{{{ email.BODY_TITLE }}}": "REPORT_ARTIFACT_NAME_HERE",
-#     "{{{ email.WORKFLOW_URL }}}": "REPORT_ARTIFACT_NAME_HERE",
-#     "{{{ email.REPORT_ARTIFACT_NAME }}}": "REPORT_ARTIFACT_NAME_HERE",
-#     "{{{ email.BDD_STDOUT }}}": open(f"{root_dir}/requirements.txt", "r").read(),
-# }
-
 with open(f"{root_dir}/utils/email_template.html", "r") as file:
     html = file.read()
 
