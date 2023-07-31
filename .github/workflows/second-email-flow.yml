@@ -1,4 +1,4 @@
-name: Email two
+name: Email Flow
 on:
   push:
     branches: ["main"]
@@ -45,7 +45,10 @@ jobs:
             --summary \
             --outfile $TEST_RESULTS_DIR \
             --include simple 2>&1) || BEHAVE_EXIT_CODE=$?
-          IMPORTANT_LINE=$(echo "${BEHAVE_OUTPUT[*]}" | grep -o '[0-9]* feature\(s\)\? passed.*') || GREP_EXIT_CODE=$?
+          
+          IMPORTANT_LINE=$(echo "${BEHAVE_OUTPUT[*]}" \
+            | grep -o '[0-9]* feature\(s\)\? passed.*') \
+            || GREP_EXIT_CODE=$?
           
           printf "%s\n" "${BEHAVE_OUTPUT[@]}"
           
