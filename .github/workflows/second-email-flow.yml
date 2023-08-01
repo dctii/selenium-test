@@ -20,6 +20,19 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install Allure
         run: |
           wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz
@@ -27,6 +40,14 @@ jobs:
           sudo mv allure-2.23.1 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
           allure --version
+
+      - name: Cache Allure
+        id: allure-cache
+        uses: actions/cache@v3
+        with:
+          path: /opt/allure
+          key: allure-2.23.1
+          restore-keys: allure-
 
       - name: Install dependencies
         run: |
