@@ -1,7 +1,6 @@
 import platform
 import os
 import shutil
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import datetime
 
 from selenium import webdriver
@@ -14,6 +13,7 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.edge.service import Service as EdgeService
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.edge.options import Options as EdgeOptions
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from utils.dirs import get_root_dir, get_curr_dir
 
@@ -31,8 +31,23 @@ class Driver(object):
     def chrome(self):
         if platform.system() == 'Darwin' and platform.machine() == 'arm64':
             return self.chrome_mac_arm64()
+        elif platform.system() == 'Linux' and platform.machine() == 'x86_64':
+            return self.chrome_linux64()
         else:
             return self.chrome_default()
+
+    def chrome_linux64(self):
+        desired_capabilities = DesiredCapabilities.CHROME
+        options = self.set_chrome_browser_options_arguments(self)
+        root_dir = get_root_dir(get_curr_dir(__file__))
+        web_drivers_dir = f"{root_dir}/test/resources/browserdrivers"
+        chrome_binary_path = f"{web_drivers_dir}/chromedriver_linux64"
+
+        return webdriver.Chrome(
+            chrome_options=options,
+            desired_capabilities=desired_capabilities,
+            executable_path=chrome_binary_path
+        )
 
     def chrome_mac_arm64(self):
         desired_capabilities = DesiredCapabilities.CHROME
