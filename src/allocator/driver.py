@@ -3,6 +3,7 @@ import os
 import shutil
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import datetime
+import requests
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -16,7 +17,6 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.edge.options import Options as EdgeOptions
 
 from utils.dirs import get_root_dir, get_curr_dir
-
 
 class Driver(object):
     def __init__(self, context):
@@ -57,8 +57,9 @@ class Driver(object):
     def chrome_default(self):
         desired_capabilities = DesiredCapabilities.CHROME
         options = self.set_chrome_browser_options_arguments(self)
+        chrome_driver_version = self.get_chrome_driver_version()
         return webdriver.Chrome(
-            service=ChromeService(ChromeDriverManager().install()),
+            service=ChromeService(ChromeDriverManager(chrome_driver_version).install()),
             chrome_options=options,
             desired_capabilities=desired_capabilities,
         )
@@ -136,3 +137,9 @@ class Driver(object):
             path_to_capture_screenshot
         )  # need to refactor this line
         return path_to_capture_screenshot
+
+    @staticmethod
+    def get_chrome_driver_version():
+        response = requests.get('https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json')
+        data = response.json()
+        return data['chromeDriver']
