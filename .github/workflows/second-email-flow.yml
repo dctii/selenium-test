@@ -1,7 +1,7 @@
 name: Email Flow
 on:
   push:
-    branches: ["main", "fix-chromedriver-1"]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -25,7 +25,6 @@ jobs:
         run: |
           echo "PIP_CACHE_DIR=$(pip cache dir)" >> $GITHUB_ENV
 
-
       - name: Cache pip dependencies
         uses: actions/cache@v3
         with:
@@ -33,6 +32,14 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }} # used for retrieving the cache in the future and recreating the folder on the runner machine based on that cache, also indicates whether the cache should be discarded or recreated because something changed
           restore-keys: |
             ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip3 install --upgrade pip setuptools wheel
+          pip3 install -r requirements.txt
+          
 
       - name: Cache Allure
         id: allure-cache
@@ -49,13 +56,6 @@ jobs:
           sudo mv allure-2.23.1 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
           allure --version
-
-      - name: Install dependencies
-        run: |
-          python3 -m venv .venv
-          source .venv/bin/activate
-          pip3 install --upgrade pip setuptools wheel
-          pip3 install -r requirements.txt
 
       - name: Run simple BDD test
         run: |
