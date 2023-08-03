@@ -54,6 +54,7 @@ jobs:
         run: echo "Cache hit!"
 
       - name: Install Allure
+        if: steps.allure-cache.outputs.cache-hit == 'false'
         run: |
           wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz
           tar -zxvf allure-2.23.1.tgz
