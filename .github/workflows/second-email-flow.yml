@@ -49,6 +49,10 @@ jobs:
           key: allure-2.23.1
           restore-keys: allure-
 
+      - name: Check cache hit on allure
+        if: steps.allure-cache.outputs.cache-hit == 'true'
+        run: echo "Cache hit!"
+
       - name: Install Allure
         run: |
           wget https://github.com/allure-framework/allure2/releases/download/2.23.1/allure-2.23.1.tgz
