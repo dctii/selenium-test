@@ -1,7 +1,7 @@
 name: Email Flow
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "fix-chromedriver-1"]
   workflow_dispatch:
 
 jobs:
